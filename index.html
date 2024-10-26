@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>D&D Campaign - Rising Sun & Dragon's Breath</title>
+    <!-- Load React. -->
+    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      .text-shadow-lg {
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 0, 0, 0.4),
+          0 0 30px rgba(0, 0, 0, 0.3);
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(-25%);
+          animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+        }
+        50% {
+          transform: translateY(0);
+          animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+        }
+      }
+
+      .animate-bounce {
+        animation: bounce 1.5s infinite;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState } = React; // Correctly import useState from React
+
+      const LoreSection = () => (
+        <div
+          className="bg-[#f7f3e3] p-8 mb-12 max-w-4xl mx-auto shadow-lg"
+          style={{
+            backgroundImage: `repeating-linear-gradient(
+            transparent,
+            transparent 24px,
+            #E5E1CF 25px
+          )`,
+          }}
+        >
+          <div className="relative">
+            {/* Decorative seal */}
+            <div className="absolute -top-4 -right-4 w-20 h-20 bg-red-700 rounded-full flex items-center justify-center rotate-12 shadow-lg">
+              <span className="text-amber-50 text-sm font-serif text-center">
+                官方
+                <br />
+                記録
+              </span>
+            </div>
+
+            <h2 className="text-3xl font-serif text-stone-900 mb-6 border-b-2 border-stone-300 pb-2">
+              The Age of Divided Dragons
+            </h2>
+
+            <div className="space-y-6 text-stone-800">
+              <p className="leading-relaxed">
+                Welcome to the Ryūjin Era (Dragon God Era), year 157, in the
+                sacred realm of Ryūjingoku - the Empire of the Dragon God. Our
+                tale unfolds in the prosperous city of Kaigenrō (Rising Dawn
+                Pavilion), the new capital of the Eastern Dragon Clan. For
+                decades, our people have been locked in bitter conflict with
+                Kurokura (Black Storage), the fortress-city of the Western
+                Dragon Clan. Once unified under the divine rule of the Dragon
+                Emperor, Ryūjingoku now stands divided, its ancient traditions
+                and powerful magics threatened by civil war.
+              </p>
+
+              <div className="bg-stone-100 p-4 border-l-4 border-red-700">
+                <h3 className="font-serif text-xl mb-2">Current State</h3>
+                <p className="leading-relaxed">
+                  You find yourself in Kaigenrō, a city of 50,000 souls, where
+                  ancient traditions blend with desperate innovation. As exiles
+                  who arrived during the great upheaval three years ago, you've
+                  carved out a place among its winding streets and bustling
+                  markets. The war that drove you here still rages, but the high
+                  walls and strategic location of Kaigenrō have kept its people
+                  safe—for now.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-serif text-xl mb-2">The Seeds of War</h3>
+                <p className="leading-relaxed">
+                  The conflict began when the last Dragon Emperor, supreme ruler
+                  of Ryūjingoku, died without naming a successor. His twin sons,
+                  Lord Akashi of the East and Lord Kuroshi of the West, both
+                  claimed the Celestial Throne. Their rivalry split the empire,
+                  with each brother claiming to be the true inheritor of the
+                  Dragon's Mandate and rightful ruler of all Ryūjingoku.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="font-serif text-xl mb-2">A Land Divided</h3>
+                <p className="leading-relaxed">
+                  The Eastern Dragon Clan, ruling from Kaigenrō, maintains the
+                  old ways, believing in the power of tradition and spiritual
+                  harmony. They hold the ancient Dragon Scrolls and claim
+                  legitimate succession through their interpretation of imperial
+                  law.
+                </p>
+                <p className="leading-relaxed mt-2">
+                  The Western Dragon Clan, from their fortress of Kurokura,
+                  embraces change and military might. They control the Emperor's
+                  legendary armies and believe strength alone should determine
+                  the right to rule.
+                </p>
+              </div>
+
+              <div className="bg-stone-100 p-4">
+                <h3 className="font-serif text-xl mb-2">Notable Features</h3>
+                <ul className="list-none space-y-2">
+                  <li>
+                    <span className="text-red-700">★</span>{" "}
+                    <strong>Kaigenrō:</strong> Known for its towering pagodas,
+                    vast libraries, and the sacred Eastern Dragon Temple
+                  </li>
+                  <li>
+                    <span className="text-red-700">★</span>{" "}
+                    <strong>Kurokura:</strong> Famous for its impenetrable
+                    walls, military academies, and the legendary Armor Forges
+                  </li>
+                  <li>
+                    <span className="text-red-700">★</span>{" "}
+                    <strong>The Contested Lands:</strong> The territories
+                    between the two cities are now a patchwork of shifting
+                    alliances and mysterious dangers
+                  </li>
+                </ul>
+              </div>
+
+              <div className="mt-4 italic">
+                <p>
+                  "In the shadow of warring dragons, even the smallest spark may
+                  ignite a flame of destiny..." - Ancient proverb of the Dragon
+                  Empire
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+      const WantedCard = ({ character }) => {
+        const [isOpen, setIsOpen] = useState(false);
+
+        const handleClick = (e) => {
+          e.stopPropagation();
+          setIsOpen(!isOpen);
+        };
+
+        return (
+          <div
+            className="h-fit bg-[#f7f3e3] shadow-lg transform transition-all duration-300 hover:scale-[1.02]"
+            style={{
+              backgroundImage: `repeating-linear-gradient(
+          transparent,
+          transparent 24px,
+          #E5E1CF 25px
+        )`,
+            }}
+          >
+            <div className="relative p-6">
+              {/* Clickable header section */}
+              <div onClick={handleClick} className="cursor-pointer">
+                {/* Seal */}
+                <div
+                  className="absolute top-4 right-4 w-16 h-16 bg-red-700 rounded-full 
+                         flex items-center justify-center rotate-12 shadow-lg"
+                >
+                  <div className="text-amber-50 text-xs text-center font-serif">
+                    東龍
+                    <br />
+                    令状
+                  </div>
+                </div>
+
+                {/* Basic Info - Always Visible */}
+                <div className="pr-16">
+                  <h3 className="text-2xl font-serif text-stone-900 mb-1">
+                    {character.name}
+                  </h3>
+                  <p className="text-sm italic text-stone-600 mb-2">
+                    {character.title}
+                  </p>
+                  <p className="text-lg font-serif text-stone-800 mb-3">
+                    {character.class}
+                  </p>
+                  <div className="flex gap-4 items-center">
+                    <div className="inline-block bg-red-700 text-amber-50 px-3 py-1 text-sm font-serif">
+                      Reward: {character.reward}
+                    </div>
+                    <div className="text-sm font-serif text-red-700">
+                      <strong>Crime:</strong> {character.crime.split(":")[0]}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Expanded Content */}
+              <div
+                className={`mt-4 transition-all duration-300 ${
+                  isOpen ? "max-h-[800px] opacity-100" : "max-h-0 opacity-0"
+                }`}
+                style={{
+                  overflow: "hidden",
+                }}
+              >
+                {/* Full Crime Details */}
+                <div className="bg-stone-100 p-3 mb-4 border-l-4 border-red-700">
+                  <strong className="font-serif">Full Crime:</strong>{" "}
+                  {character.crime}
+                </div>
+
+                {/* Description */}
+                <p className="text-stone-800 mb-6 leading-relaxed">
+                  {character.description}
+                </p>
+
+                {/* Combat Style/Playstyle Section */}
+                <div className="mt-6">
+                  <h4 className="font-serif text-stone-900 mb-3 border-b border-stone-300">
+                    Combat Style
+                  </h4>
+                  <div className="space-y-3">
+                    <div className="bg-stone-100 p-3">
+                      <span className="font-semibold">Main Role:</span>{" "}
+                      {character.playstyle.primary}
+                    </div>
+                    <div>
+                      <span className="font-semibold">Combat Focus:</span>{" "}
+                      {character.playstyle.combat}
+                    </div>
+                    <div>
+                      <span className="font-semibold">Special Abilities:</span>{" "}
+                      {character.playstyle.special}
+                    </div>
+                    <div>
+                      <span className="font-semibold">Key Skills:</span>{" "}
+                      {character.playstyle.skills}
+                    </div>
+                    <div className="bg-stone-100 p-3">
+                      <span className="font-semibold">Unique Mechanic:</span>{" "}
+                      {character.playstyle.unique}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Last Seen */}
+                <div className="mt-6 text-sm italic bg-stone-100 p-3">
+                  Last seen: {character.lastSeen}
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      const App = () => {
+        const characters = [
+          {
+            name: "Masashi Kenshin",
+            subtitle: "The Unyielding Blade",
+            title: "Grandmaster of the Imperial Guard Academy",
+            reward: "5,000 koku",
+            class: "Samurai",
+            crime:
+              "High Treason: Refused to execute innocent officials accused of Western sympathy, then aided their escape from the capital.",
+            description:
+              "Once the most respected instructor of the Emperor's personal guard, Masashi's dedication to the old ways made him a legend among samurai. His mastery of the blade is said to rival the dragons themselves.",
+            playstyle: {
+              primary:
+                "Master of all weapons with special focus on katana techniques",
+              combat: "Excels in both one-on-one duels and battlefield combat",
+              special:
+                "Can enter special stance forms that grant different combat abilities",
+              skills:
+                "Combines martial prowess with leadership abilities to inspire allies",
+              unique:
+                "Honor points system: gains power as honor increases through actions",
+            },
+            lastSeen: "Leading troops at the Battle of Red Bridge",
+          },
+          {
+ name: "Yukihira Satsuki",
+ subtitle: "The Blade of Perfect Form",
+ title: "Grandmaster of the Single Strike School",
+ reward: "4,000 koku",
+ class: "Kensai",
+ crime: "Sacred Defiance: Refused to teach her perfect sword techniques to those who would use them for dishonorable conquest.",
+ description: "The former head instructor of the Empire's most prestigious sword school, whose understanding of the true essence of the blade redefined what was thought possible with a katana. Her philosophy of achieving perfection through absolute devotion to a single weapon created an entirely new branch of martial arts.",
+ playstyle: {
+   primary: "Ultimate master of the katana with supernatural precision",
+   combat: "Specializes in perfect strikes that cannot be defended against",
+   special: "Can achieve states of perfect unity with her chosen weapon",
+   skills: "Combines flawless technique with spiritual connection to the blade",
+   unique: "Perfect Form system: builds towards guaranteed lethal strikes through maintaining perfect form"
+ },
+ lastSeen: "Practicing ten thousand cuts at Dawn Peak"
+},
+          {
+            name: "Takeshi Morinaga",
+            subtitle: "The Mystic Sage",
+            title: "Chancellor of the Imperial College of Elements",
+            reward: "6,000 koku",
+            class: "Wu Jen",
+            crime:
+              "Forbidden Knowledge: Shared sacred magical texts with common people to help them defend their villages.",
+            description:
+              "Former head of the Empire's most prestigious magical institution, his research into elemental harmonies transformed our understanding of Wu Jen arts.",
+            playstyle: {
+              primary:
+                "Elementalist spellcaster who harnesses the five elements",
+              combat:
+                "Uses devastating area-of-effect spells and battlefield control",
+              special: "Can combine elements for different spell effects",
+              skills: "Gains power through observing personal taboos",
+              unique:
+                "Element mastery system: becomes stronger in attuned elements",
+            },
+            lastSeen: "Gathering reagents in the Spirit Forest",
+          },
+          {
+            name: "Himura Kaede",
+            subtitle: "The Divine Voice",
+            title: "High Priestess of the Imperial Shrine Complex",
+            reward: "4,500 koku",
+            class: "Shukenja",
+            crime:
+              "Divine Sedition: Proclaimed that the kami had withdrawn their blessing from Lord Akashi's reign.",
+            description:
+              "Once responsible for overseeing all major shrines within the imperial capital, her innovations in ritual and communion with the kami set new standards for spiritual practices.",
+            playstyle: {
+              primary: "Divine spellcaster who channels the power of the kami",
+              combat:
+                "Focuses on healing, buffing allies, and warding against evil",
+              special: "Can commune with spirits for information and aid",
+              skills: "Able to bless weapons and create sacred spaces",
+              unique:
+                "Favor system: builds divine power through proper offerings and respect to kami",
+            },
+            lastSeen: "Blessing the harvest at Mountain Temple",
+          },
+          {
+            name: "Kurosawa Shinobu",
+            subtitle: "The Shadow Fox",
+            title: "Director of Imperial Intelligence and Security",
+            reward: "8,000 koku",
+            class: "Ninja",
+            crime:
+              "Conspiracy: Exposed Lord Akashi's secret attacks on civilian towns to the public.",
+            description:
+              "Former head of the empire's covert operations and intelligence network, they revolutionized the art of information gathering and covert operations.",
+            playstyle: {
+              primary: "Master of stealth and deception",
+              combat:
+                "Excels at surprise attacks and controlling the battlefield through trickery",
+              special: "Uses various poisons and tools for combat advantage",
+              skills: "Expert in disguise and infiltration",
+              unique:
+                "Shadow arts system: gains special abilities in darkness or when unseen",
+            },
+            lastSeen: "Everywhere and nowhere",
+          },
+          {
+            name: "Ishikawa Tetsuya",
+            subtitle: "The Iron Mountain",
+            title: "Grandmaster of the Temple Guardian Order",
+            reward: "5,500 koku",
+            class: "Sohei",
+            crime:
+              "Sacred Defiance: Refused to allow temples to be converted into military fortifications.",
+            description:
+              "Previous head instructor of the empire's most prestigious temple warrior academy, his integration of spiritual and martial arts created a new school of combat.",
+            playstyle: {
+              primary: "Warrior monk combining martial arts with divine power",
+              combat: "Specializes in defensive combat and protecting allies",
+              special: "Can channel ki for enhanced combat abilities",
+              skills:
+                "Uses meditation techniques to boost combat effectiveness",
+              unique:
+                "Ki charge system: stores energy for powerful techniques and divine abilities",
+            },
+            lastSeen: "Defending the Western Temple",
+          },
+          {
+            name: "Matsuda Nobuhide",
+            subtitle: "The Perfect Warrior",
+            title: "Supreme Grandmaster of the Imperial Military Arts",
+            reward: "4,000 koku",
+            class: "Bushi",
+            crime:
+              "Military Defection: Refused to allow his revolutionary combat techniques to be used for dishonorable warfare.",
+            description:
+              "Former head of the Empire's most prestigious military academy, Nobuhide revolutionized the art of warfare. His innovations in weapon combinations, battlefield tactics, and training methods created entirely new schools of combat that are now standard throughout the realm. His mastery of multiple weapons and ability to adapt to any combat situation made him legendary.",
+            playstyle: {
+              primary:
+                "Ultimate master of all martial weapons and combat styles",
+              combat:
+                "Unparalleled expertise in all forms of warfare, from duels to mass combat",
+              special:
+                "Can seamlessly switch between different weapon styles and combat techniques",
+              skills:
+                "Created and mastered revolutionary combat techniques that combine different weapon styles",
+              unique:
+                "Warfare Mastery system: can perfectly execute any known military technique and teach it to others",
+            },
+            lastSeen: "Training elite troops in the Hidden Valley",
+          },
+          {
+            name: "Miyamoto Musashi",
+            subtitle: "The Enlightened Fist",
+            title: "Supreme Grandmaster of the Ten Thousand Steps",
+            reward: "5,000 koku",
+            class: "Monk",
+            crime:
+              "Spiritual Rebellion: Taught forbidden techniques of enlightenment to common people, claiming all could achieve transcendence.",
+            description:
+              "Once the highest-ranking master of the Empire's most secretive monastery, Musashi achieved legendary status for mastering every known form of unarmed combat. His treatises on combining physical mastery with spiritual enlightenment revolutionized martial arts throughout the realm.",
+            playstyle: {
+              primary:
+                "Supreme master of unarmed combat and spiritual techniques",
+              combat:
+                "Combines devastating martial arts with supernatural abilities",
+              special:
+                "Can enter states of perfect harmony between body and spirit",
+              skills:
+                "Mastered techniques that transcend normal human limitations",
+              unique:
+                "Enlightenment system: gains increasing power as spiritual and physical mastery align",
+            },
+            lastSeen: "Meditating at the Peak of Heaven's Touch Mountain",
+          },
+          {
+            name: "Hanzo Daisuke",
+            subtitle: "The Shadow Emperor",
+            title: "Supreme Oyabun of the United Syndicates",
+            reward: "7,000 koku",
+            class: "Yakuza",
+            crime:
+              "Criminal Revolution: United all major criminal organizations but refused to use their power to support corrupt officials.",
+            description:
+              "Former leader of all major criminal organizations in the Empire, Daisuke revolutionized the underground economy. His code of honor and system of organization became the standard for all criminal enterprises, ironically bringing more order to chaos.",
+            playstyle: {
+              primary: "Master of criminal enterprise and underground networks",
+              combat: "Excels in street fighting and dirty tactics",
+              special:
+                "Can call upon vast criminal network for various effects",
+              skills:
+                "Combines combat prowess with criminal expertise and leadership",
+              unique:
+                "Criminal Empire system: gains power through controlling territory and maintaining underground networks",
+            },
+            lastSeen: "Managing his network from the Floating World district",
+          },
+          {
+            name: "Koga Raijin",
+            subtitle: "The Storm of the Steppes",
+            title: "Supreme Khan of the United Tribes",
+            reward: "6,000 koku",
+            class: "Barbarian",
+            crime:
+              "Tribal Insurrection: United the barbarian tribes but refused to use their strength to raid imperial lands.",
+            description:
+              "Once the greatest leader of the northern tribes, Raijin revolutionized tribal warfare and culture. His methods of combining raw strength with tactical wisdom created a new way of tribal combat that spread throughout the steppes.",
+            playstyle: {
+              primary: "Master of primal combat and tribal warfare",
+              combat: "Combines raw strength with battlefield fury",
+              special: "Can enter various states of battle rage",
+              skills: "Blends natural combat instincts with tactical knowledge",
+              unique:
+                "Primal Fury system: gains power as battle continues and fury builds",
+            },
+            lastSeen: "Leading tribal warriors in the Northern Wastes",
+          },
+        ];
+        return (
+          <div className="min-h-screen bg-stone-900">
+            {/* Hero Section with Background Image */}
+            <div className="relative h-screen flex items-center justify-center">
+              {/* Background Image */}
+              <div className="absolute inset-0">
+                <img
+                  src="https://i.imgur.com/ax9UUaD.jpeg"
+                  alt="Dragon temple at sunset"
+                  className="w-full h-full object-cover"
+                />
+                {/* Dark overlay to ensure text visibility */}
+                <div className="absolute inset-0 bg-black bg-opacity-30"></div>
+              </div>
+
+              {/* Text Content */}
+              <div className="relative z-10 text-center px-4 flex flex-col items-center">
+                <h1
+                  className="text-7xl font-serif font-bold mb-6 tracking-tight text-amber-50 
+                   text-shadow-lg drop-shadow-2xl"
+                >
+                  Twilight of the Western Dragon
+                </h1>
+                <p
+                  className="text-3xl text-amber-50 font-serif 
+                  text-shadow-lg drop-shadow-xl mb-24"
+                >
+                  The Masters' Final Lesson
+                </p>
+
+                {/* Bouncing Arrow - moved below subtitle */}
+                <div className="animate-bounce mt-8">
+                  <svg
+                    className="w-8 h-8 text-amber-50"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="3"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            <LoreSection />
+
+            {/* Main Content */}
+            <div className="min-h-screen bg-stone-900 p-8">
+              <h1 className="text-6xl font-serif text-center mb-12 text-amber-50">
+                The Emperor's Banished Elite
+              </h1>
+
+              <h2 className="text-4xl font-serif text-center mb-12 text-amber-50">
+                Select Your Hero
+              </h2>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto auto-rows-auto">
+                {characters.map((character) => (
+                  <WantedCard key={character.name} character={character} />
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+  </body>
+</html>
