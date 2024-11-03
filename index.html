@@ -38,114 +38,362 @@
     <script type="text/babel">
       const { useState } = React; // Correctly import useState from React
 
-      const LoreSection = () => (
-        <div
-          className="bg-[#f7f3e3] p-8 mb-12 max-w-4xl mx-auto shadow-lg"
-          style={{
-            backgroundImage: `repeating-linear-gradient(
-            transparent,
-            transparent 24px,
-            #E5E1CF 25px
-          )`,
-          }}
-        >
+      const DragonSection = () => (
+        <div className="bg-amber-50 p-8 mb-12 max-w-4xl mx-auto shadow-lg">
           <div className="relative">
-            {/* Decorative seal */}
-            <div className="absolute -top-4 -right-4 w-20 h-20 bg-red-700 rounded-full flex items-center justify-center rotate-12 shadow-lg">
-              <span className="text-amber-50 text-sm font-serif text-center">
-                官方
-                <br />
-                記録
-              </span>
+            {/* Rotated background */}
+            <div className="absolute inset-0 bg-stone-200 rotate-1"></div>
+
+            {/* Main content */}
+            <div className="relative bg-amber-50 p-8 shadow-md">
+              {/* Decorative seal */}
+              <div className="absolute -top-4 -right-4 w-20 h-20 bg-red-700 rounded-full flex items-center justify-center rotate-12 shadow-lg">
+                <span className="text-amber-50 text-sm font-serif text-center">
+                  龍神
+                  <br />
+                  史記
+                </span>
+              </div>
+
+              <h2 className="text-3xl font-serif text-stone-900 mb-6 border-b-2 border-stone-300 pb-2">
+                The Tale of Two Dragons
+              </h2>
+
+              <div className="space-y-6 text-stone-800">
+                <p className="leading-relaxed">
+                  Before the great divide, Li Lung and Chiang Lung were more
+                  than mere guardians of their respective domains - they were
+                  partners in maintaining the natural harmony of the realm.
+                  Where Li Lung nurtured the ancient forests, Chiang Lung's
+                  rivers brought their vitality to the furthest reaches of the
+                  empire. Their combined power created a land of unprecedented
+                  prosperity and balance.
+                </p>
+
+                <div className="bg-stone-100 p-4 border-l-4 border-red-700">
+                  <h3 className="font-serif text-xl mb-2">
+                    The Great Sundering
+                  </h3>
+                  <p className="leading-relaxed">
+                    When the imperial brothers turned against each other, the
+                    dragons too found themselves at odds. The schism between the
+                    once-harmonious dragons manifested physically in the land
+                    itself - where once stood mere rocky hills, their
+                    conflicting powers thrust upward the mighty Kuniwari Range,
+                    a physical embodiment of the divide that now plagues the
+                    realm.
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="bg-stone-100 p-4">
+                    <h3 className="font-serif text-xl mb-2 text-red-700">
+                      Li Lung
+                    </h3>
+                    <p className="leading-relaxed">
+                      The Forest Dragon aligned with the Eastern Clan, believing
+                      in the preservation of ancient ways. Their power now
+                      focuses inward, deepening the mysteries of the Kamishi
+                      Forest and strengthening its connection to the spirit
+                      realm. The forest has grown denser, more ancient, with
+                      trees that seem to have stood for millennia appearing
+                      overnight.
+                    </p>
+                  </div>
+
+                  <div className="bg-stone-100 p-4">
+                    <h3 className="font-serif text-xl mb-2 text-red-700">
+                      Chiang Lung
+                    </h3>
+                    <p className="leading-relaxed">
+                      The River Dragon sided with the Western Clan, seeing the
+                      need for change and adaptation. Their rivers have grown
+                      more powerful and unpredictable, carving new paths through
+                      the Muromori Woods. The waters now flow with an intensity
+                      that matches the Western Clan's military might.
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="font-serif text-xl mb-2">
+                    The Kuniwari Range
+                  </h3>
+                  <p className="leading-relaxed">
+                    The mountains stand as a testament to the dragons' sundered
+                    bond. What was once gentle, rolling terrain has been
+                    transformed into towering peaks that seem to touch the
+                    heavens themselves. Local legends say that on quiet nights,
+                    one can hear the mountains themselves groaning, as if the
+                    very earth remembers the pain of their creation.
+                  </p>
+                </div>
+
+                <div className="bg-stone-100 p-4">
+                  <h3 className="font-serif text-xl mb-2">
+                    Impact on the Realm
+                  </h3>
+                  <ul className="list-none space-y-2">
+                    <li>
+                      <span className="text-red-700">★</span>{" "}
+                      <strong>The Eastern Lands:</strong> Under Li Lung's
+                      influence, the forests have become deeply intertwined with
+                      the spirit world, making the region a nexus of traditional
+                      magic and ancient wisdom
+                    </li>
+                    <li>
+                      <span className="text-red-700">★</span>{" "}
+                      <strong>The Western Territories:</strong> Chiang Lung's
+                      waters have reshaped the landscape, creating powerful
+                      rivers that serve both as natural defenses and sources of
+                      innovation
+                    </li>
+                    <li>
+                      <span className="text-red-700">★</span>{" "}
+                      <strong>The Divide:</strong> The Kuniwari Range serves as
+                      more than a border - it is a constant reminder of how the
+                      conflict has fundamentally altered the world itself
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="mt-4 italic">
+                  <p>
+                    "When dragons turn from friendship to fury, even the
+                    mountains must bow to their grief." - Ancient saying of the
+                    Dragon Sages
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+      const MapSection = () => {
+        const [isExpanded, setIsExpanded] = useState(false);
+
+        // Backdrop component for expanded map
+        const ExpandedMapBackdrop = ({ children, onClose }) => (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center p-4 cursor-zoom-out"
+            onClick={onClose}
+          >
+            {children}
+          </div>
+        );
+
+        // Expanded map view
+        const ExpandedMap = ({ onClose }) => (
+          <ExpandedMapBackdrop onClose={onClose}>
+            <div
+              className="relative max-w-[90vw] max-h-[90vh]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src="https://i.imgur.com/ODgHII9.jpeg"
+                alt="Map of Ryūjingoku - Full View"
+                className="w-full h-full object-contain"
+              />
+              <button
+                onClick={onClose}
+                className="absolute -top-4 -right-4 w-8 h-8 bg-red-700 rounded-full text-white flex items-center justify-center hover:bg-red-800 transition-colors"
+                aria-label="Close expanded map"
+              >
+                ×
+              </button>
+            </div>
+          </ExpandedMapBackdrop>
+        );
+
+        return (
+          <>
+            <div className="bg-[#f7f3e3] p-8 mb-12 max-w-4xl mx-auto shadow-lg">
+              <div className="relative">
+                {/* Decorative seal */}
+                <div className="absolute -top-4 -right-4 w-20 h-20 bg-red-700 rounded-full flex items-center justify-center rotate-12 shadow-lg">
+                  <span className="text-amber-50 text-sm font-serif text-center">
+                    帝国
+                    <br />
+                    地図
+                  </span>
+                </div>
+
+                <h2 className="text-3xl font-serif text-stone-900 mb-6 border-b-2 border-stone-300 pb-2">
+                  Imperial Map of Ryūjingoku
+                </h2>
+
+                {/* Map container with hover and click effects */}
+                <div className="relative cursor-zoom-in">
+                  <div className="absolute inset-0 bg-stone-200 transform rotate-1 transition-transform duration-300 ease-in-out"></div>
+                  <div
+                    className="relative bg-stone-100 p-4 shadow-md transform transition-all duration-300 ease-in-out hover:scale-[1.02] hover:shadow-xl"
+                    onClick={() => setIsExpanded(true)}
+                  >
+                    <img
+                      src="https://i.imgur.com/ODgHII9.jpeg"
+                      alt="Map of Ryūjingoku"
+                      className="w-full h-auto"
+                    />
+                    {/* Overlay hint */}
+                    <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-0 hover:bg-opacity-20 transition-all duration-300">
+                      <span className="text-transparent hover:text-white text-lg font-serif transition-all duration-300">
+                        Click to expand
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Map legend or description */}
+                <div className="mt-6 text-stone-800">
+                  <p className="italic text-sm mb-4">
+                    "A map from the Imperial Archives, showing the territories
+                    of the Eastern and Western Dragon Clans, including the
+                    sacred domains of the great dragons"
+                  </p>
+                  <div className="bg-stone-100 p-4">
+                    <h3 className="font-serif text-xl mb-2">Key Locations</h3>
+                    <ul className="list-none space-y-2">
+                      <li>
+                        <span className="text-red-700">★</span>{" "}
+                        <strong>Kaigenrō:</strong> The Eastern Dragon Clan
+                        capital
+                      </li>
+                      <li>
+                        <span className="text-red-700">★</span>{" "}
+                        <strong>Kurokura:</strong> The Western Dragon Clan
+                        stronghold
+                      </li>
+                      <li>
+                        <span className="text-red-700">★</span>{" "}
+                        <strong>Kuniwari Range:</strong> The mountainous spine
+                        dividing East from West
+                      </li>
+                      <li>
+                        <span className="text-red-700">★</span>{" "}
+                        <strong>Kamishi Forest:</strong> Ancient woodland domain
+                        of Li Lung, the forest dragon
+                      </li>
+                      <li>
+                        <span className="text-red-700">★</span>{" "}
+                        <strong>Muromori Woods:</strong> Mystical forest realm
+                        of Chiang Lung, the river dragon
+                      </li>
+                    </ul>
+                  </div>
+
+                  {/* Additional lore section for the dragons */}
+                  <div className="bg-stone-100 p-4 mt-4">
+                    <h3 className="font-serif text-xl mb-2">
+                      The Great Dragons
+                    </h3>
+                    <div className="space-y-3">
+                      <p>
+                        <strong className="text-red-700">Li Lung</strong> • The
+                        Forest Dragon of Kamishi dwells among the ancient trees,
+                        protecting the sacred groves and maintaining harmony
+                        between the mortal and spirit realms.
+                      </p>
+                      <p>
+                        <strong className="text-red-700">Chiang Lung</strong> •
+                        The River Dragon of Muromori commands the waters that
+                        flow through their domain, blessing or withholding the
+                        lifeblood of agriculture throughout the region.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <h2 className="text-3xl font-serif text-stone-900 mb-6 border-b-2 border-stone-300 pb-2">
-              The Age of Divided Dragons
-            </h2>
+            {/* Expanded map view */}
+            {isExpanded && <ExpandedMap onClose={() => setIsExpanded(false)} />}
+          </>
+        );
+      };
+      const LoreSection = () => (
+        <div className="bg-amber-50 p-8 mb-12 max-w-4xl mx-auto shadow-lg">
+          <div className="relative">
+            {/* Rotated background */}
+            <div className="absolute inset-0 bg-stone-200 -rotate-1"></div>
 
-            <div className="space-y-6 text-stone-800">
-              <p className="leading-relaxed">
-                Welcome to the Ryūjin Era (Dragon God Era), year 157, in the
-                sacred realm of Ryūjingoku - the Empire of the Dragon God. Our
-                tale unfolds in the prosperous city of Kaigenrō (Rising Dawn
-                Pavilion), the new capital of the Eastern Dragon Clan. For
-                decades, our people have been locked in bitter conflict with
-                Kurokura (Black Storage), the fortress-city of the Western
-                Dragon Clan. Once unified under the divine rule of the Dragon
-                Emperor, Ryūjingoku now stands divided, its ancient traditions
-                and powerful magics threatened by civil war.
-              </p>
+            {/* Main content with slight counter-rotation */}
+            <div className="relative bg-white p-8 shadow-md rotate-0">
+              {/* Decorative seal */}
+              <div className="absolute -top-4 -right-4 w-20 h-20 bg-red-700 rounded-full flex items-center justify-center rotate-12 shadow-lg">
+                <span className="text-amber-50 text-sm font-serif text-center">
+                  官方
+                  <br />
+                  記録
+                </span>
+              </div>
 
-              <div className="bg-stone-100 p-4 border-l-4 border-red-700">
-                <h3 className="font-serif text-xl mb-2">Current State</h3>
+              <h2 className="text-3xl font-serif text-stone-900 mb-6 border-b-2 border-stone-300 pb-2">
+                The Age of Divided Dragons
+              </h2>
+
+              <div className="space-y-6 text-stone-800">
                 <p className="leading-relaxed">
-                  You find yourself in Kaigenrō, a city of 50,000 souls, where
-                  ancient traditions blend with desperate innovation. As exiles
-                  who arrived during the great upheaval three years ago, you've
-                  carved out a place among its winding streets and bustling
-                  markets. The war that drove you here still rages, but the high
-                  walls and strategic location of Kaigenrō have kept its people
-                  safe—for now.
+                  Welcome to the Ryūjin Era (Dragon God Era), year 157, in the
+                  sacred realm of Ryūjingoku - the Empire of the Dragon God. Our
+                  tale unfolds in the prosperous city of Kaigenrō (Rising Dawn
+                  Pavilion), the new capital of the Eastern Dragon Clan. For
+                  decades, our people have been locked in bitter conflict with
+                  Kurokura (Black Storage), the fortress-city of the Western
+                  Dragon Clan. Once unified under the divine rule of the Dragon
+                  Emperor, Ryūjingoku now stands divided, its ancient traditions
+                  and powerful magics threatened by civil war.
                 </p>
-              </div>
 
-              <div>
-                <h3 className="font-serif text-xl mb-2">The Seeds of War</h3>
-                <p className="leading-relaxed">
-                  The conflict began when the last Dragon Emperor, supreme ruler
-                  of Ryūjingoku, died without naming a successor. His twin sons,
-                  Lord Akashi of the East and Lord Kuroshi of the West, both
-                  claimed the Celestial Throne. Their rivalry split the empire,
-                  with each brother claiming to be the true inheritor of the
-                  Dragon's Mandate and rightful ruler of all Ryūjingoku.
-                </p>
-              </div>
+                <div className="bg-stone-100 p-4 border-l-4 border-red-700">
+                  <h3 className="font-serif text-xl mb-2">Current State</h3>
+                  <p className="leading-relaxed">
+                    You find yourself in Kaigenrō, a city of 50,000 souls, where
+                    ancient traditions blend with desperate innovation. As
+                    exiles who arrived during the great upheaval three years
+                    ago, you've carved out a place among its winding streets and
+                    bustling markets. The war that drove you here still rages,
+                    but the high walls and strategic location of Kaigenrō have
+                    kept its people safe—for now.
+                  </p>
+                </div>
 
-              <div>
-                <h3 className="font-serif text-xl mb-2">A Land Divided</h3>
-                <p className="leading-relaxed">
-                  The Eastern Dragon Clan, ruling from Kaigenrō, maintains the
-                  old ways, believing in the power of tradition and spiritual
-                  harmony. They hold the ancient Dragon Scrolls and claim
-                  legitimate succession through their interpretation of imperial
-                  law.
-                </p>
-                <p className="leading-relaxed mt-2">
-                  The Western Dragon Clan, from their fortress of Kurokura,
-                  embraces change and military might. They control the Emperor's
-                  legendary armies and believe strength alone should determine
-                  the right to rule.
-                </p>
-              </div>
+                <div>
+                  <h3 className="font-serif text-xl mb-2">The Seeds of War</h3>
+                  <p className="leading-relaxed">
+                    The conflict began when the last Dragon Emperor, supreme
+                    ruler of Ryūjingoku, died without naming a successor. His
+                    twin sons, Lord Akashi of the East and Lord Kuroshi of the
+                    West, both claimed the Celestial Throne. Their rivalry split
+                    the empire, with each brother claiming to be the true
+                    inheritor of the Dragon's Mandate and rightful ruler of all
+                    Ryūjingoku.
+                  </p>
+                </div>
 
-              <div className="bg-stone-100 p-4">
-                <h3 className="font-serif text-xl mb-2">Notable Features</h3>
-                <ul className="list-none space-y-2">
-                  <li>
-                    <span className="text-red-700">★</span>{" "}
-                    <strong>Kaigenrō:</strong> Known for its towering pagodas,
-                    vast libraries, and the sacred Eastern Dragon Temple
-                  </li>
-                  <li>
-                    <span className="text-red-700">★</span>{" "}
-                    <strong>Kurokura:</strong> Famous for its impenetrable
-                    walls, military academies, and the legendary Armor Forges
-                  </li>
-                  <li>
-                    <span className="text-red-700">★</span>{" "}
-                    <strong>The Contested Lands:</strong> The territories
-                    between the two cities are now a patchwork of shifting
-                    alliances and mysterious dangers
-                  </li>
-                </ul>
-              </div>
+                <div>
+                  <h3 className="font-serif text-xl mb-2">A Land Divided</h3>
+                  <p className="leading-relaxed">
+                    The Eastern Dragon Clan, ruling from Kaigenrō, maintains the
+                    old ways, believing in the power of tradition and spiritual
+                    harmony. They hold the ancient Dragon Scrolls and claim
+                    legitimate succession through their interpretation of
+                    imperial law.
+                  </p>
+                  <p className="leading-relaxed mt-2">
+                    The Western Dragon Clan, from their fortress of Kurokura,
+                    embraces change and military might. They control the
+                    Emperor's legendary armies and believe strength alone should
+                    determine the right to rule.
+                  </p>
+                </div>
 
-              <div className="mt-4 italic">
-                <p>
-                  "In the shadow of warring dragons, even the smallest spark may
-                  ignite a flame of destiny..." - Ancient proverb of the Dragon
-                  Empire
-                </p>
+                <div className="mt-4 italic">
+                  <p>
+                    "In the shadow of warring dragons, even the smallest spark
+                    may ignite a flame of destiny..." - Ancient proverb of the
+                    Dragon Empire
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -542,7 +790,8 @@
             </div>
 
             <LoreSection />
-
+            <MapSection />
+            <DragonSection />
             {/* Main Content */}
             <div className="min-h-screen bg-stone-900 p-8">
               <h1 className="text-6xl font-serif text-center mb-12 text-amber-50">
